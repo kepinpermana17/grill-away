@@ -1,0 +1,233 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GRILL AWAY - Rental BBQ Home Service</title>
+    <!-- Font Google -->
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <!-- Icon Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <!-- LINK KE CSS EKSTERNAL -->
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+    <!-- NAVIGASI -->
+    <header>
+        <div class="container nav-wrapper">
+            <a href="#" class="logo" onclick="app.showPage('home')">
+                <i class="fa-solid fa-fire-burner"></i> GRILL AWAY
+            </a>
+            <nav class="nav-links">
+                <a href="#" onclick="app.showPage('home')">Beranda</a>
+                <a href="#products" onclick="app.showPage('home')">Produk</a>
+                <a href="#" onclick="app.showPage('tracking')">Lacak Pesanan</a>
+                <a href="#" onclick="app.showPage('admin')">Admin</a>
+            </nav>
+            <button class="cart-btn" onclick="app.toggleCart()">
+                <i class="fa-solid fa-cart-shopping"></i>
+                <span class="cart-badge" id="cart-count">0</span>
+            </button>
+        </div>
+    </header>
+
+    <!-- CONTENT PAGE: HOME -->
+    <main id="page-home">
+        <section class="hero">
+            <div class="container">
+                <h1>BBQ Seru Tanpa Ribet!</h1>
+                <p>Sewa Alat & Paket Daging Lengkap, Antarsekejab.</p>
+                <button class="btn btn-primary" onclick="document.getElementById('products').scrollIntoView({behavior: 'smooth'})">Pesan Sekarang</button>
+            </div>
+        </section>
+
+        <section id="products" class="section container">
+            <div class="text-center" style="margin-bottom: 30px;">
+                <h2 class="text-primary">Pilihan Paket & Alat</h2>
+                <p>Pilih paket hemat atau sewa alat sesuai kebutuhan Anda.</p>
+            </div>
+
+            <div class="filter-tabs">
+                <button class="filter-btn active" onclick="app.filterProducts('all')">Semua</button>
+                <button class="filter-btn" onclick="app.filterProducts('meat')">Paket BBQ + Daging</button>
+                <button class="filter-btn" onclick="app.filterProducts('tool')">Sewa Alat Saja</button>
+                <button class="filter-btn" onclick="app.filterProducts('addon')">Tambahan</button>
+            </div>
+
+            <div class="grid grid-3" id="product-list">
+                <!-- Produk dirender oleh JS -->
+            </div>
+        </section>
+    </main>
+
+    <!-- CONTENT PAGE: CHECKOUT -->
+    <main id="page-checkout" class="container section hidden">
+        <h2 class="text-center" style="margin-bottom: 30px;">Checkout & Pengiriman</h2>
+        <div class="grid grid-2">
+            <div class="checkout-section">
+                <div class="checkout-steps">
+                    <div class="step active">1. Logistik</div>
+                    <div class="step">2. Bayar</div>
+                </div>
+
+                <form id="checkout-form" onsubmit="event.preventDefault(); app.processPayment();">
+                    <h4 style="margin-bottom: 15px; border-bottom: 1px solid #ddd; padding-bottom: 5px;">Detail Pengantaran</h4>
+                    
+                    <div class="form-group">
+                        <label>Tanggal Sewa</label>
+                        <input type="date" id="rent-date" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label>Metode Pengantaran</label>
+                        <div class="radio-group">
+                            <div class="radio-option" onclick="app.selectOption('delivery', 'internal', this)">
+                                <i class="fa-solid fa-truck"></i><br>Kurir Internal
+                            </div>
+                            <div class="radio-option" onclick="app.selectOption('delivery', 'gosend', this)">
+                                <i class="fa-solid fa-motorcycle"></i><br>GoSend/Online
+                            </div>
+                            <div class="radio-option" onclick="app.selectOption('delivery', 'offline', this)">
+                                <i class="fa-solid fa-store"></i><br>Ambil di Tempat
+                            </div>
+                        </div>
+                        <input type="hidden" id="input-delivery" required>
+                    </div>
+
+                    <div class="form-group" id="shipping-cost-box">
+                        <label>Estimasi Ongkir (GoSend)</label>
+                        <div style="background: #fff3cd; padding: 10px; border-radius: 4px; font-size: 0.9rem;">
+                            <i class="fa-solid fa-circle-info"></i> Estimasi ongkir untuk GoSend: <strong>Rp 15.000 - Rp 25.000</strong>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label>Alamat Lengkap</label>
+                        <textarea id="input-address" rows="3" placeholder="Nama jalan, nomor rumah..." required></textarea>
+                    </div>
+
+                    <h4 style="margin: 20px 0 15px; border-bottom: 1px solid #ddd; padding-bottom: 5px;">Metode Pembayaran</h4>
+                    <div class="form-group">
+                        <div class="radio-group">
+                            <div class="radio-option selected" onclick="app.selectOption('payment', 'cod', this)">
+                                <i class="fa-solid fa-money-bill-wave"></i><br>COD / Bayar Ditempat
+                            </div>
+                            <div class="radio-option" onclick="app.selectOption('payment', 'transfer', this)">
+                                <i class="fa-solid fa-building-columns"></i><br>Transfer
+                            </div>
+                        </div>
+                        <input type="hidden" id="input-payment" value="cod">
+                    </div>
+
+                    <button type="submit" class="btn btn-primary btn-block" style="margin-top: 20px;">Konfirmasi Pesanan</button>
+                    <button type="button" class="btn btn-outline btn-block" style="margin-top: 10px;" onclick="app.showPage('home')">Kembali Belanja</button>
+                </form>
+            </div>
+
+            <div class="checkout-section" style="height: fit-content;">
+                <h4 style="margin-bottom: 20px;">Ringkasan Pesanan</h4>
+                <div id="checkout-items"></div>
+                <div class="cart-total">
+                    <span>Subtotal</span>
+                    <span id="summary-subtotal">Rp 0</span>
+                </div>
+                <div class="flex justify-between" style="margin-bottom: 10px;">
+                    <span>Ongkos Kirim</span>
+                    <span id="summary-shipping">Rp 0</span>
+                </div>
+                <div class="cart-total" style="color: var(--primary); border-top: 2px dashed #ddd; padding-top: 10px; margin-top: 10px;">
+                    <span>Total Bayar</span>
+                    <span id="summary-total">Rp 0</span>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- CONTENT PAGE: TRACKING -->
+    <main id="page-tracking" class="container section hidden text-center">
+        <h2 class="text-primary" style="margin-bottom: 20px;">Lacak Status Pesanan</h2>
+        <div style="max-width: 500px; margin: 0 auto;">
+            <input type="text" id="track-id" placeholder="Masukkan ID Pesanan (Contoh: ORD-12345)">
+            <button class="btn btn-primary btn-block" onclick="app.trackOrder()">Lacak</button>
+        </div>
+        
+        <div id="tracking-result" class="hidden" style="max-width: 600px; margin: 40px auto; text-align: left;">
+            <h3 id="track-order-id" style="border-bottom: 2px solid var(--secondary); padding-bottom: 10px; margin-bottom: 20px;"></h3>
+            <div class="tracking-status active">
+                <i class="fa-solid fa-clipboard-check"></i> <strong>Pesanan Diterima</strong>
+            </div>
+            <div class="tracking-status" id="status-process">
+                <i class="fa-solid fa-fire-burner"></i> <strong>Disiapkan</strong>
+            </div>
+            <div class="tracking-status" id="status-delivery">
+                <i class="fa-solid fa-motorcycle"></i> <strong>Dalam Perjalanan</strong>
+            </div>
+        </div>
+    </main>
+
+    <!-- CONTENT PAGE: ADMIN -->
+    <main id="page-admin" class="container section hidden">
+        <div class="flex justify-between align-center" style="margin-bottom: 20px;">
+            <h2>Admin Dashboard</h2>
+            <button class="btn btn-primary" onclick="app.showAddProductModal()">+ Tambah Produk</button>
+        </div>
+        <div style="overflow-x: auto;">
+            <table class="admin-table">
+                <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>Nama Produk</th>
+                        <th>Kategori</th>
+                        <th>Harga</th>
+                        <th>Aksi</th>
+                    </tr>
+                </thead>
+                <tbody id="admin-product-list"></tbody>
+            </table>
+        </div>
+        <div id="admin-form-container" class="checkout-section hidden" style="margin-top: 30px;">
+            <h3 style="margin-bottom: 15px;">Form Produk</h3>
+            <form onsubmit="event.preventDefault(); app.saveProduct();">
+                <input type="hidden" id="edit-id">
+                <input type="text" id="edit-name" placeholder="Nama Produk" required>
+                <select id="edit-category">
+                    <option value="meat">Paket BBQ + Daging</option>
+                    <option value="tool">Sewa Alat Saja</option>
+                    <option value="addon">Tambahan</option>
+                </select>
+                <input type="number" id="edit-price" placeholder="Harga" required>
+                <textarea id="edit-desc" placeholder="Deskripsi" required></textarea>
+                <div class="flex" style="gap: 10px;">
+                    <button type="submit" class="btn btn-primary">Simpan</button>
+                    <button type="button" class="btn btn-outline" onclick="document.getElementById('admin-form-container').classList.add('hidden')">Batal</button>
+                </div>
+            </form>
+        </div>
+    </main>
+
+    <!-- CART SIDEBAR -->
+    <div class="overlay" id="overlay" onclick="app.toggleCart()"></div>
+    <div class="cart-sidebar" id="cart-sidebar">
+        <div class="cart-header">
+            <h3><i class="fa-solid fa-basket-shopping"></i> Keranjang</h3>
+            <button onclick="app.toggleCart()" style="background:none; color:white; font-size:1.2rem;"><i class="fa-solid fa-xmark"></i></button>
+        </div>
+        <div class="cart-body" id="cart-items-container"></div>
+        <div class="cart-footer">
+            <div class="cart-total">
+                <span>Total:</span>
+                <span id="cart-total-price">Rp 0</span>
+            </div>
+            <button class="btn btn-primary btn-block" onclick="app.goToCheckout()">Lanjut Checkout</button>
+        </div>
+    </div>
+
+    <!-- TOAST CONTAINER -->
+    <div id="toast-container"></div>
+
+    <!-- LINK KE JS EKSTERNAL -->
+    <script src="script.js"></script>
+</body>
+</html>
