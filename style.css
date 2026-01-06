@@ -57,7 +57,7 @@ header { background-color: white; box-shadow: var(--shadow); position: sticky; t
 
 /* TAMBAHKAN KELAS BARU INI UNTUK MENGATUR UKURAN GAMBAR */
 .logo-img {
-    height: 50px; /* Anda bisa ubah angka ini (misal 40px, 60px) */
+    height: 700px; /* Anda bisa ubah angka ini (misal 40px, 60px) */
     width: auto; /* Agar gambar tidak gepeng */
 }
 .nav-links { display: flex; gap: 20px; }
@@ -120,4 +120,5 @@ header { background-color: white; box-shadow: var(--shadow); position: sticky; t
     .nav-links { display: none; }
     .cart-sidebar { width: 100%; right: -100%; }
 }
+
 
