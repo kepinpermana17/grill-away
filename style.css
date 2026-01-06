@@ -44,7 +44,22 @@ input, select, textarea { width: 100%; padding: 10px; border: 1px solid #ddd; bo
 /* Header & Hero */
 header { background-color: white; box-shadow: var(--shadow); position: sticky; top: 0; z-index: 100; }
 .nav-wrapper { display: flex; justify-content: space-between; align-items: center; height: 70px; }
-.logo { font-size: 1.5rem; font-weight: 700; color: var(--primary); display: flex; align-items: center; gap: 10px; }
+.logo /* Bagian Logo di CSS */
+.logo { 
+    font-size: 1.5rem; /* Ukuran teks "GRILL AWAY" */
+    font-weight: 700; 
+    color: var(--primary); 
+    display: flex; 
+    align-items: center; 
+    gap: 10px; /* Jarak antara gambar dan teks */
+    text-decoration: none; 
+}
+
+/* TAMBAHKAN KELAS BARU INI UNTUK MENGATUR UKURAN GAMBAR */
+.logo-img {
+    height: 50px; /* Anda bisa ubah angka ini (misal 40px, 60px) */
+    width: auto; /* Agar gambar tidak gepeng */
+}
 .nav-links { display: flex; gap: 20px; }
 .nav-links a { font-weight: 500; transition: color 0.3s; }
 .nav-links a:hover, .nav-links a.active { color: var(--primary); }
@@ -105,3 +120,4 @@ header { background-color: white; box-shadow: var(--shadow); position: sticky; t
     .nav-links { display: none; }
     .cart-sidebar { width: 100%; right: -100%; }
 }
+
